@@ -1,0 +1,75 @@
+experimental assignment 1:
+
+
+* To start the environment with aruco boxes:
+
+1- Models should be placed in the gazebo folder /home/ubuntu/gazebo_models
+
+Which should contain these folders (you can find them on the internet except for aruco_box):
+aruco_box  aws_robomaker_warehouse_ClutteringC_01  brick_box_3x1x3  LitterBin
+
+
+2- you can try launch the environment after:
+
+ros2 launch bme_gazebo_sensors spawn_robot.launch.py world:=my_world.sdf rviz_config:=gps.rviz x:=2.0  y:=-0.5 z:=0
+
+There's one model that I couldn't find so just comment it
+
+
+3- In the EKF yaml configuration file: ekf.yaml - comment the last line
+
+
+4- In mogibot.gazebo
+
+replace the camera part with:
+<gazebo reference="camera_link">
+<sensor name="camera" type="camera">
+<camera>
+<horizontal_fov>1.3962634</horizontal_fov>
+<image>
+<width>640</width>
+<height>480</height>
+<format>R8G8B8</format>
+</image>
+<clip>
+<near>0.1</near>
+<far>15</far>
+</clip>
+<noise>
+<type>gaussian</type>
+<!-- Noise is sampled independently per pixel on each frame.
+That pixel's noise value is added to each of its color
+channels, which at that point lie in the range [0,1]. -->
+<mean>0.0</mean>
+<stddev>0.007</stddev>
+</noise>
+<optical_frame_id>camera_link_optical</optical_frame_id>
+<camera_info_topic>camera/camera_info</camera_info_topic>
+</camera>
+<always_on>1</always_on>
+<update_rate>20</update_rate>
+<visualize>true</visualize>
+<topic>camera/image</topic>
+</sensor>
+</gazebo>
+
+
+
+5- in aruco_tracker.yaml
+cam_base_topic: /camera/image
+marker_dict: ARUCO_ORIGINAL
+
+
+
+6- finally start the world
+
+ros2 launch bme_gazebo_sensors spawn_robot.launch.py world:=aruco_world.sdf rviz_config:=gps.rviz x:=2.0  y:=-0.5 z:=0
+
+run the detector with:
+ros2 launch aruco_opencv aruco_tracker.launch.xml
+
+
+If you got error setSize error or big allocation error in the aruco tracking, make sure you have python 4.6.x or less. 4.7 or more can give errors.
+
+
+
