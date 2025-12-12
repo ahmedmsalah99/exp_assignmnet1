@@ -69,7 +69,7 @@ run the detector with:
 ros2 launch aruco_opencv aruco_tracker.launch.xml
 
 
-If you got error setSize error or big allocation error in the aruco tracking, make sure you have python 4.6.x or less. 4.7 or more can give errors.
+If you got error setSize error or big allocation error in the aruco tracking, make sure you have opencv 4.6.x or less. 4.7 or more can give errors.
 
 
 
