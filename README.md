@@ -40,8 +40,8 @@ Markers are processed in ascending order of their IDs.
 ---
 
 ## Demo
-- Robot Camera View (POV) — (media/FPP_view.gif)
-- Third-Person View (Gazebo) — (media/TPP_view.gif)
+- Robot Camera View (POV) — ![Robot POV](media/robot_pov.gif)
+- Third-Person View (Gazebo) — ![Robot POV](media/robot_pov.gif)
 - Full videos (higher quality): https://drive.google.com/drive/folders/1CValVfP6zW1D-L1NEGznBjSKgR2_Ptp-
 
 ---
