@@ -1,7 +1,7 @@
 # ExpRob– Assignment 1
 Aruco Scanner Node (ROS2)
 
-Authors: Ahmed_Salah - Maze_Atta - Mohamed_Ismail
+Author/ID: Ahmed_Yousef/6848239 - Maze_Atta/7146206 - Mohamed_Ismail/6655420
 
 Course: Experimental Robotics Laboratorty-University of Genoa
 
@@ -153,9 +153,9 @@ ros2 run aruco_scanner aruco_scanner_node
 ---
 
 ## Documentation
-Sphinx documentation is available in the `docs/` folder.
+Sphinx documentation is available in the `docs/` folder under `aruco_scanner_node.html`.
 
-To build locally:
+or you can build it locally:
 ```bash
 cd docs
 make html

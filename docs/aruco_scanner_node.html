@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aruco Scanner Node &mdash; Aruco_Scanner_Node 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to Aruco Scanner Node Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Aruco_Scanner_Node
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Aruco Scanner Node</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">aruco_scanner_node</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#behavior">Behavior</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner"><code class="docutils literal notranslate"><span class="pre">ArucoScanner</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_APPROACHING"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_APPROACHING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_CENTERING"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_CENTERING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_DONE"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_DONE</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_HOME"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_HOME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_INIT_HOME"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_INIT_HOME</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.STATE_SCANNING"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.STATE_SCANNING</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.destroy_node"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.destroy_node()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.detections_callback"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.detections_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.image_callback"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.image_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.odom_callback"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.odom_callback()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.project_marker_circle"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.project_marker_circle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aruco_scanner_node.ArucoScanner.project_point_to_image"><code class="docutils literal notranslate"><span class="pre">ArucoScanner.project_point_to_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#aruco_scanner_node.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Aruco_Scanner_Node</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Aruco Scanner Node</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/aruco_scanner_node.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-aruco_scanner_node">
+<span id="aruco-scanner-node"></span><h1>Aruco Scanner Node<a class="headerlink" href="#module-aruco_scanner_node" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>aruco_scanner_node<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>ROS 2 node for ArUco marker detection and visual servoing.</p>
+<section id="behavior">
+<h3>Behavior<a class="headerlink" href="#behavior" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>On startup, reads the first <cite>/odometry/filtered</cite> message and stores it as
+the HOME pose and orientation.</p></li>
+<li><p>Enters <strong>SCANNING</strong> state:</p>
+<ul>
+<li><p>Publishes angular velocity (<cite>angular.z = 0.5</cite>) on <cite>/cmd_vel</cite></p></li>
+<li><p>Listens to <cite>/aruco_detections</cite></p></li>
+<li><p>A marker is considered valid only if it is continuously detected
+for a minimum duration.</p></li>
+</ul>
+</li>
+<li><p>After collecting all required marker IDs, switches to <strong>CENTERING</strong> state:</p>
+<ul>
+<li><p>Selects the marker with the smallest ID</p></li>
+<li><p>Rotates the robot until the marker is centered in the camera image</p></li>
+</ul>
+</li>
+<li><p>Switches to <strong>APPROACHING</strong> state:</p>
+<ul>
+<li><p>Moves forward until a distance threshold from the marker is reached</p></li>
+</ul>
+</li>
+<li><p>Returns to the HOME position and repeats the process for all remaining
+markers in ascending ID order.</p></li>
+<li><p>Once all markers are visited, the node stops and enters the <strong>DONE</strong> state.</p></li>
+</ul>
+<p class="rubric">Notes</p>
+<p>This node publishes an annotated camera image with a visual marker overlay
+showing the detected ArUco marker.</p>
+</section>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">aruco_scanner_node.</span></span><span class="sig-name descname"><span class="pre">ArucoScanner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></p>
+<p>ROS 2 node implementing a finite-state machine for detecting,
+centering, and approaching ArUco markers.</p>
+<p>The node operates in the following states:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">INIT_HOME</span></code>: waits for the first odometry message and stores it
+as the HOME pose.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SCANNING</span></code>: rotates the robot in place to detect ArUco markers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CENTERING</span></code>: rotates the robot to center the selected marker
+in the camera image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">APPROACHING</span></code>: moves forward until the robot reaches the marker.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">HOME</span></code>: returns to the HOME position.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DONE</span></code>: stops all motion after all markers have been visited.</p></li>
+</ul>
+<p>The node processes markers in ascending order of their IDs and
+publishes an annotated camera image showing the detected marker.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_APPROACHING">
+<span class="sig-name descname"><span class="pre">STATE_APPROACHING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'APPROACHING'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_APPROACHING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_CENTERING">
+<span class="sig-name descname"><span class="pre">STATE_CENTERING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'CENTERING'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_CENTERING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_DONE">
+<span class="sig-name descname"><span class="pre">STATE_DONE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DONE'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_DONE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_HOME">
+<span class="sig-name descname"><span class="pre">STATE_HOME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'HOME'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_HOME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_INIT_HOME">
+<span class="sig-name descname"><span class="pre">STATE_INIT_HOME</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'INIT_HOME'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_INIT_HOME" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.STATE_SCANNING">
+<span class="sig-name descname"><span class="pre">STATE_SCANNING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'SCANNING'</span></em><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.STATE_SCANNING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.destroy_node">
+<span class="sig-name descname"><span class="pre">destroy_node</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.destroy_node" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.detections_callback">
+<span class="sig-name descname"><span class="pre">detections_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.detections_callback" title="Link to this definition"></a></dt>
+<dd><p>ArUco detection callback.</p>
+<p>Processes detected markers, validates them based on continuous
+detection time, and stores their poses for use by the control logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> – ArUco detection message containing detected markers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.image_callback">
+<span class="sig-name descname"><span class="pre">image_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.image_callback" title="Link to this definition"></a></dt>
+<dd><p>Camera image callback.</p>
+<p>Converts the incoming ROS image to OpenCV format, draws a circular
+overlay around detected ArUco markers, and republishes the annotated
+image on a custom topic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>sensor_msgs.msg.Image</em>) – Raw camera image message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.odom_callback">
+<span class="sig-name descname"><span class="pre">odom_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">nav_msgs.msg.Odometry</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.odom_callback" title="Link to this definition"></a></dt>
+<dd><p>Odometry callback.</p>
+<p>Stores the first received odometry message as the HOME pose.
+Subsequent messages are used to track the current robot position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>msg</strong> (<em>nav_msgs.msg.Odometry</em>) – Odometry message containing the robot pose.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.project_marker_circle">
+<span class="sig-name descname"><span class="pre">project_marker_circle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.project_marker_circle" title="Link to this definition"></a></dt>
+<dd><p>Given marker center position (x,y,z) and side length (meters),
+compute the circle center and radius in pixel space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="aruco_scanner_node.ArucoScanner.project_point_to_image">
+<span class="sig-name descname"><span class="pre">project_point_to_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.ArucoScanner.project_point_to_image" title="Link to this definition"></a></dt>
+<dd><p>Project 3D point in camera frame into the image plane.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="aruco_scanner_node.main">
+<span class="sig-prename descclassname"><span class="pre">aruco_scanner_node.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#aruco_scanner_node.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Aruco Scanner Node Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Ahmed_Salah-Mazen_Atta-Mohamed_Ismail.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
