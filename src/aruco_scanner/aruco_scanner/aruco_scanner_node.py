@@ -1,18 +1,44 @@
 #!/usr/bin/env python3
 """
-aruco_scanner.node
+aruco_scanner_node
+==================
 
-Behavior:
-1) On startup, reads the first /odometry/filtered message and stores it as HOME pose/orientation.
-2) Enters SCANNING state: publishes angular z=0.5 on /cmd_vel to rotate and listens to /aruco_detections.
-   - For each marker seen, requires continuous detection >= 0.2 s for that marker to be considered valid.
-   - Collects unique valid marker IDs until 5 are found.
-3) Switches to CENTERING state: choose the marker with the smallest ID and attempt to center so marker.pose.position.x ∈ [-0.03, 0.03].
-   - Simple proportional-like controller using angular z commands.
-4) DONE: stops motion.
+ROS 2 node for ArUco marker detection and visual servoing.
 
-This node attempts to import the detection message dynamically (so it doesn't hard-code package names).
+Behavior
+--------
+
+- On startup, reads the first `/odometry/filtered` message and stores it as
+  the HOME pose and orientation.
+
+- Enters **SCANNING** state:
+  
+  - Publishes angular velocity (`angular.z = 0.5`) on `/cmd_vel`
+  - Listens to `/aruco_detections`
+  - A marker is considered valid only if it is continuously detected
+    for a minimum duration.
+
+- After collecting all required marker IDs, switches to **CENTERING** state:
+
+  - Selects the marker with the smallest ID
+  - Rotates the robot until the marker is centered in the camera image
+
+- Switches to **APPROACHING** state:
+
+  - Moves forward until a distance threshold from the marker is reached
+
+- Returns to the HOME position and repeats the process for all remaining
+  markers in ascending ID order.
+
+- Once all markers are visited, the node stops and enters the **DONE** state.
+
+Notes
+-----
+
+This node publishes an annotated camera image with a visual marker overlay
+showing the detected ArUco marker.
 """
+
 
 import rclpy
 from rclpy.node import Node
@@ -27,6 +53,25 @@ import cv2
 import numpy as np
 
 class ArucoScanner(Node):
+    """
+    ROS 2 node implementing a finite-state machine for detecting,
+    centering, and approaching ArUco markers.
+
+    The node operates in the following states:
+
+    - ``INIT_HOME``: waits for the first odometry message and stores it
+      as the HOME pose.
+    - ``SCANNING``: rotates the robot in place to detect ArUco markers.
+    - ``CENTERING``: rotates the robot to center the selected marker
+      in the camera image.
+    - ``APPROACHING``: moves forward until the robot reaches the marker.
+    - ``HOME``: returns to the HOME position.
+    - ``DONE``: stops all motion after all markers have been visited.
+
+    The node processes markers in ascending order of their IDs and
+    publishes an annotated camera image showing the detected marker.
+    """
+        
     STATE_INIT_HOME = "INIT_HOME"
     STATE_SCANNING = "SCANNING"
     STATE_CENTERING = "CENTERING"
@@ -35,6 +80,14 @@ class ArucoScanner(Node):
     STATE_DONE = "DONE"
 
     def __init__(self):
+        """
+        Initialize the ArucoScanner node.
+
+        Declares ROS parameters, initializes publishers and subscribers,
+        sets up the internal state machine, and starts the periodic timer
+        used to control robot motion.
+        """
+
         super().__init__("aruco_scanner_node")
 
         # Parameters (tweakable)
@@ -116,6 +169,16 @@ class ArucoScanner(Node):
     # Callbacks
     # --------------------------
     def odom_callback(self, msg: Odometry):
+        """
+        Odometry callback.
+
+        Stores the first received odometry message as the HOME pose.
+        Subsequent messages are used to track the current robot position.
+
+        :param msg: Odometry message containing the robot pose.
+        :type msg: nav_msgs.msg.Odometry
+        """
+
         # On first odom message, record home and move to SCANNING
         if self.home_odom is None:
             self.home_odom = msg
@@ -125,6 +188,17 @@ class ArucoScanner(Node):
         self.current_odom = msg
 
     def image_callback(self, msg):
+        """
+        Camera image callback.
+
+        Converts the incoming ROS image to OpenCV format, draws a circular
+        overlay around detected ArUco markers, and republishes the annotated
+        image on a custom topic.
+
+        :param msg: Raw camera image message.
+        :type msg: sensor_msgs.msg.Image
+        """
+
         # Convert ROS -> OpenCV
         frame = self.bridge.imgmsg_to_cv2(msg, desired_encoding="bgr8")
 
@@ -168,6 +242,7 @@ class ArucoScanner(Node):
         # Publish annotated image
         out_msg = self.bridge.cv2_to_imgmsg(frame, encoding="bgr8")
         self.annotated_pub.publish(out_msg)
+
     def project_marker_circle(self, pos, size):
         """
         Given marker center position (x,y,z) and side length (meters),
@@ -220,12 +295,14 @@ class ArucoScanner(Node):
         return int(u), int(v)
     def detections_callback(self, msg):
         """
-        Expects a message that includes a 'markers' sequence, where each marker has:
-        - marker_id (int)
-        - pose.position.x, pose.position.y, pose.position.z
-        - optionally pose.orientation
-        The function is intentionally generic to match your provided sample schema.
+        ArUco detection callback.
+
+        Processes detected markers, validates them based on continuous
+        detection time, and stores their poses for use by the control logic.
+
+        :param msg: ArUco detection message containing detected markers.
         """
+
         now_ns = self.get_clock().now().nanoseconds
 
         # Extract markers list permissively
@@ -283,6 +360,15 @@ class ArucoScanner(Node):
     # Timer / state machine
     # --------------------------
     def _timer_callback(self):
+        """
+        Periodic timer callback implementing the state machine.
+
+        This method runs at a fixed frequency and:
+        - Updates the internal state machine
+        - Publishes velocity commands
+        - Handles marker timeouts and state transitions
+        """
+
         now = self.get_clock().now().nanoseconds
         # Purge / reset markers that have not been seen recently ( > 0.2s )
         timeout_s = 0.2
@@ -394,6 +480,13 @@ class ArucoScanner(Node):
             return
 
     def _publish_twist(self, linear_x: float, angular_z: float):
+        """
+        Publish a velocity command to the robot.
+
+        :param linear_x: Linear velocity along the x-axis (m/s).
+        :param angular_z: Angular velocity around the z-axis (rad/s).
+        """
+
         t = Twist()
         t.linear.x = linear_x
         t.linear.y = 0.0
@@ -402,7 +495,16 @@ class ArucoScanner(Node):
         t.angular.y = 0.0
         t.angular.z = angular_z
         self.cmd_pub.publish(t)
+        
     def _is_home(self):
+        """
+        Check whether the robot has returned to the HOME position.
+
+        :return: True if the robot is within a fixed distance threshold
+                from the HOME pose.
+        :rtype: bool
+        """
+
         if self.home_odom is None or self.current_odom is None:
             return False
         dx = self.current_odom.pose.pose.position.x - self.home_odom.pose.pose.position.x
