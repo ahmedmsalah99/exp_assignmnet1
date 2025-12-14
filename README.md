@@ -1,8 +1,9 @@
 # ExpRob– Assignment 1
 Aruco Scanner Node (ROS2)
 
-Authors: Ahmed_Salah-Maze_Atta-Mohamed_Ismail 
-Course: Experimental Robotics Laboratorty– University of Genoa
+Authors: Ahmed_Salah-Maze_Atta-Mohamed_Ismail
+
+Course: Experimental Robotics Laboratorty-University of Genoa
 
 ---
 
