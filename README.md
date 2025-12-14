@@ -40,11 +40,15 @@ Markers are processed in ascending order of their IDs.
 ---
 
 ## Demo
-- Robot Camera View (POV) — ![Robot POV](media/robot_pov.gif)
-- Third-Person View (Gazebo) — ![Robot POV](media/robot_pov.gif)
-- Full videos (higher quality): https://drive.google.com/drive/folders/1CValVfP6zW1D-L1NEGznBjSKgR2_Ptp-
 
----
+### Robot Camera View (POV)
+![Robot POV](media/FPP_view.gif)
+
+### Third-Person View (Gazebo)
+![Third Person View](media/TPP_view.gif)
+
+📹 **Full-resolution videos:**  
+https://drive.google.com/drive/folders/1CValVfP6zW1D-L1NEGznBjSKgR2_Ptp-
 
 ## Environment Setup
 
@@ -59,7 +63,7 @@ Required folders:
 - `brick_box_3x1x3`
 - `LitterBin`
 
-Note: One model may be missing — comment it out in the world file if necessary.
+Note: One model may be missing - comment it out in the world file if necessary.
 
 2. Launch Test Environment
 
